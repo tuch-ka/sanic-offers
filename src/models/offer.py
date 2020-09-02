@@ -30,7 +30,7 @@ class Offer(BasicModel):
             return None
 
     @staticmethod
-    async def read_by_id(offer_id: int, user_id: int) -> List['Offer']:
+    async def get_filtered(offer_id: int, user_id: int) -> List['Offer']:
         query = Offer.select()
         if offer_id is not None:
             query = query.where(Offer.offer_id == offer_id)

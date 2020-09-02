@@ -36,6 +36,6 @@ async def read_offer(request):
     offer_id = request_json.get('offer_id', None)
     user_id = request_json.get('user_id', None)
 
-    offers = await Offer.read_by_id(offer_id, user_id)
+    offers = await Offer.get_filtered(offer_id, user_id)
 
     return json(offers, status=200)
