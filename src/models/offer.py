@@ -10,9 +10,6 @@ from database import manager
 class User(BasicModel):
     """Модель пользователя. Нужна для ForeignKeyField"""
     user_id = peewee.AutoField()
-    username = peewee.CharField(unique=True)
-    password = peewee.CharField()
-    email = peewee.CharField(null=True)
 
 
 class Offer(BasicModel):
@@ -41,11 +38,11 @@ class Offer(BasicModel):
             query = query.where(Offer.user_id == user_id)
         query = query.order_by(Offer.user_id)
 
-        result = await manager.execute(query)
+        offers = await manager.execute(query)
 
-        return [offer.to_dict() for offer in result]
+        return [offer.to_dict() for offer in offers]
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             'offer_id': self.offer_id,
             'user_id': self.user_id.user_id,
