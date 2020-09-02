@@ -1,0 +1,103 @@
+openapi: 3.0.0
+
+info:
+  description: |
+    part of api fo User-Offers services.
+  version: "1.0.0"
+  title: Offers service
+  contact:
+    email: tuch_ka@mail.ru
+    
+tags:
+  - name: offer
+    description: Everything about offers
+
+paths:
+
+  /offer/create:
+    post:
+      tags:
+        - offer
+      summary: Add a new offer
+      operationId: addOffer
+      responses:
+        400:
+          description: Invalid input
+        403:
+          description: authorization required
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferResponse'
+      security:
+        - cookie_auth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreateRequest'
+        description: Offer data
+        
+  /offer:
+    post:
+      tags:
+        - offer
+      summary: Read filtered offer data
+      operationId: readOffer
+      responses:
+        200:
+          description: List of offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items : {
+                $ref : '#/components/schemas/OfferResponse'
+              }
+          
+components:
+
+  schemas:
+          
+    OfferCreateRequest:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        text:
+          type: string
+      xml:
+        name: Offer
+        
+    OfferResponse:
+      type: object
+      properties:
+        offer_id:
+          type: integer
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        text:
+          type: string
+      xml:
+        name: Offer
+
+  securitySchemes:
+    cookie_auth:
+      type: apiKey
+      in: cookie
+      name: token
+
+
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/tuch-ka/user_offers/1.0.0
