@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 import peewee
 from peewee import IntegrityError
@@ -31,6 +31,19 @@ class Offer(BasicModel):
             return await manager.create(cls, **data)
         except IntegrityError:
             return None
+
+    @staticmethod
+    async def read_by_id(offer_id: int, user_id: int) -> List['Offer']:
+        query = Offer.select()
+        if offer_id is not None:
+            query = query.where(Offer.offer_id == offer_id)
+        if user_id is not None:
+            query = query.where(Offer.user_id == user_id)
+        query = query.order_by(Offer.user_id)
+
+        result = await manager.execute(query)
+
+        return [offer.to_dict() for offer in result]
 
     def to_dict(self):
         return {

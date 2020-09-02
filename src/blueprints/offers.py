@@ -1,5 +1,5 @@
 from sanic import Blueprint
-from sanic.response import json, empty
+from sanic.response import json, empty, text
 
 from schemas.offer import OfferCreateSchema
 from marshmallow import ValidationError
@@ -26,4 +26,10 @@ async def create_offer(request):
 
 @bp.post('/')
 async def read_offer(request):
-    return json({'read offer': 'OK'}, status=200)
+    request_json = request.json
+    offer_id = request_json.get('offer_id', None)
+    user_id = request_json.get('user_id', None)
+
+    offers = await Offer.read_by_id(offer_id, user_id)
+
+    return json(offers, status=200)
