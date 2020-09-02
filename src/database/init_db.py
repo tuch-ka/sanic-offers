@@ -1,8 +1,7 @@
 from . import db
-# from models.offer import Offer
+from models.offer import Offer
 
 
 def create_tables():
     with db:
-        # db.create_tables([Offer, ])
-        pass
+        db.create_tables([Offer, ])
