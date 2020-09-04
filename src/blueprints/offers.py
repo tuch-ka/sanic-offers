@@ -32,7 +32,7 @@ async def create_offer(request, token_payload):
 
 @bp.post('/')
 async def read_offer(request):
-    request_json = request.json
+    request_json = request.json or {}
     offer_id = request_json.get('offer_id', None)
     user_id = request_json.get('user_id', None)
 
