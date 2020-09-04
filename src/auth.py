@@ -23,6 +23,10 @@ def auth_required(func):
     return wrapper
 
 
+def create_token(payload: dict) -> str:
+    return jwt.encode(payload, TOKEN_KEY, algorithm='HS256').decode('utf-8')
+
+
 def read_token(token) -> Optional[dict]:
     try:
         return jwt.decode(token, TOKEN_KEY)
